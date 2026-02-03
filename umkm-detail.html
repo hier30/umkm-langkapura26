@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail UMKM - UMKM Desa Langkapura</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-store"></i>
+                <h1>UMKM <span>Langkapura</span></h1>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="mobile-nav" id="mainNav">
+                <ul>
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="index.html#umkm">UMKM</a></li>
+                    <li><a href="index.html#articles">Artikel</a></li>
+                    <li><a href="index.html#about">Tentang</a></li>
+                    <li><a href="index.html#contact">Kontak</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="detail-container">
+        <a href="index.html#umkm" class="back-button">
+            <i class="fas fa-arrow-left"></i> Kembali ke Daftar UMKM
+        </a>
+        
+        <div class="umkm-detail-card" id="umkmDetail">
+            <!-- Detail UMKM akan diisi oleh JavaScript -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>UMKM Langkapura</h3>
+                    <p>Mempromosikan produk lokal UMKM Desa Langkapura, Lampung untuk mendukung perekonomian desa.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Tautan Cepat</h4>
+                    <ul>
+                        <li><a href="index.html">Beranda</a></li>
+                        <li><a href="index.html#umkm">UMKM</a></li>
+                        <li><a href="index.html#articles">Artikel</a></li>
+                        <li><a href="index.html#about">Tentang Kami</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Kontak Kami</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Desa Langkapura, Kec. Langkapura, Kota Bandar Lampung, Lampung</p>
+                    <p><i class="fas fa-phone"></i> (0721) 123456</p>
+                    <p><i class="fas fa-envelope"></i> info@umkmlangkapura.id</p>
+                    <p><i class="fab fa-instagram"></i> @umkm_langkapura</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 UMKM Desa Langkapura. Semua hak dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Get UMKM ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const umkmId = parseInt(urlParams.get('id')) || 1;
+        
+        // Render UMKM Detail
+        function renderUMKMDetail() {
+            const umkm = getUMKMById(umkmId);
+            if (!umkm) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            const detailContainer = document.getElementById('umkmDetail');
+            detailContainer.innerHTML = `
+                <div class="umkm-detail-header">
+                    <span class="umkm-detail-category">${umkm.category}</span>
+                    <h1 class="umkm-detail-name">${umkm.name}</h1>
+                </div>
+                
+                <img src="${umkm.image}" alt="${umkm.name}" class="umkm-detail-image">
+                
+                <div class="detail-content">
+                    <div class="detail-info">
+                        <h3>Informasi UMKM</h3>
+                        <p><i class="fas fa-user"></i> <strong>Pemilik:</strong> ${umkm.owner}</p>
+                        <p><i class="fas fa-calendar-alt"></i> <strong>Berdiri Sejak:</strong> ${umkm.established}</p>
+                        <p><i class="fas fa-tags"></i> <strong>Kategori:</strong> ${umkm.category}</p>
+                        <p><i class="fas fa-money-bill-wave"></i> <strong>Kisaran Harga:</strong> ${umkm.priceRange}</p>
+                        <p><i class="fas fa-phone"></i> <strong>Telepon:</strong> ${umkm.contact}</p>
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>Alamat:</strong> ${umkm.address}</p>
+                        
+                        <a href="https://wa.me/${umkm.contact.replace(/\D/g, '')}?text=Halo%20${encodeURIComponent(umkm.owner)}%2C%20saya%20tertarik%20dengan%20produk%20${encodeURIComponent(umkm.name)}%20di%20UMKM%20Langkapura" 
+                           target="_blank" 
+                           class="btn btn-whatsapp" style="width: 100%; margin-top: 1rem;">
+                            <i class="fab fa-whatsapp"></i> Hubungi via WhatsApp
+                        </a>
+                    </div>
+                    
+                    <div class="detail-description">
+                        <h3>Deskripsi UMKM</h3>
+                        <p>${umkm.description}</p>
+                        
+                        <h3 style="margin-top: 1.5rem;">Produk Unggulan</h3>
+                        <p>${umkm.products}</p>
+                    </div>
+                </div>
+                
+                <div class="share-section">
+                    <h4>Bagikan UMKM Ini</h4>
+                    <div class="share-buttons">
+                        <a href="#" class="share-btn facebook">
+                            <i class="fab fa-facebook-f"></i> Facebook
+                        </a>
+                        <a href="#" class="share-btn twitter">
+                            <i class="fab fa-twitter"></i> Twitter
+                        </a>
+                        <a href="https://wa.me/?text=Lihat%20UMKM%20${encodeURIComponent(umkm.name)}%20di%20Desa%20Langkapura%3A%20${encodeURIComponent(window.location.href)}" 
+                           target="_blank" 
+                           class="share-btn whatsapp">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                    </div>
+                </div>
+            `;
+            
+            // Set page title
+            document.title = `${umkm.name} - UMKM Desa Langkapura`;
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderUMKMDetail();
+            initNavigation();
+        });
+    </script>
+</body>
+</html>

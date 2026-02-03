@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Artikel - UMKM Desa Langkapura</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-store"></i>
+                <h1>UMKM <span>Langkapura</span></h1>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="mobile-nav" id="mainNav">
+                <ul>
+                    <li><a href="index.html">Beranda</a></li>
+                    <li><a href="index.html#umkm">UMKM</a></li>
+                    <li><a href="index.html#articles">Artikel</a></li>
+                    <li><a href="index.html#about">Tentang</a></li>
+                    <li><a href="index.html#contact">Kontak</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="detail-container">
+        <a href="index.html#articles" class="back-button">
+            <i class="fas fa-arrow-left"></i> Kembali ke Daftar Artikel
+        </a>
+        
+        <div class="article-detail-card" id="articleDetail">
+            <!-- Detail Artikel akan diisi oleh JavaScript -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>UMKM Langkapura</h3>
+                    <p>Mempromosikan produk lokal UMKM Desa Langkapura, Lampung untuk mendukung perekonomian desa.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Tautan Cepat</h4>
+                    <ul>
+                        <li><a href="index.html">Beranda</a></li>
+                        <li><a href="index.html#umkm">UMKM</a></li>
+                        <li><a href="index.html#articles">Artikel</a></li>
+                        <li><a href="index.html#about">Tentang Kami</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Kontak Kami</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Desa Langkapura, Kec. Langkapura, Kota Bandar Lampung, Lampung</p>
+                    <p><i class="fas fa-phone"></i> (0721) 123456</p>
+                    <p><i class="fas fa-envelope"></i> info@umkmlangkapura.id</p>
+                    <p><i class="fab fa-instagram"></i> @umkm_langkapura</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 UMKM Desa Langkapura. Semua hak dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Get Article ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = parseInt(urlParams.get('id')) || 1;
+        
+        // Render Article Detail
+        function renderArticleDetail() {
+            const article = getArticleById(articleId);
+            if (!article) {
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            const detailContainer = document.getElementById('articleDetail');
+            detailContainer.innerHTML = `
+                <div class="article-detail-header">
+                    <h1 class="article-detail-name">${article.title}</h1>
+                    <div class="article-meta" style="justify-content: center; margin-top: 1rem;">
+                        <span class="article-category">${article.category}</span>
+                        <span>${article.date} • ${article.readTime}</span>
+                    </div>
+                </div>
+                
+                <img src="${article.image}" alt="${article.title}" class="article-detail-image">
+                
+                <div class="article-content">
+                    ${article.fullContent}
+                </div>
+                
+                <div class="share-section">
+                    <h4>Bagikan Artikel Ini</h4>
+                    <div class="share-buttons">
+                        <a href="#" class="share-btn facebook">
+                            <i class="fab fa-facebook-f"></i> Facebook
+                        </a>
+                        <a href="#" class="share-btn twitter">
+                            <i class="fab fa-twitter"></i> Twitter
+                        </a>
+                        <a href="https://wa.me/?text=Baca%20artikel%20${encodeURIComponent(article.title)}%20di%20UMKM%20Langkapura%3A%20${encodeURIComponent(window.location.href)}" 
+                           target="_blank" 
+                           class="share-btn whatsapp">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                    </div>
+                </div>
+            `;
+            
+            // Set page title
+            document.title = `${article.title} - UMKM Desa Langkapura`;
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderArticleDetail();
+            initNavigation();
+        });
+    </script>
+</body>
+</html>
